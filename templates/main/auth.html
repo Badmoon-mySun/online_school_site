@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <title>Регистрация</title>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="header__inner">
+            <div class="header__logo">
+
+            </div>
+            <div class="header__text">
+                Онлайн школа ЕГЭ и ОГЭ
+            </div>
+            <div class="header__login">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-primary login_btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Войти
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="">
+
+                        </form>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel">Для зарегистрированных пользователей</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-md-7">
+                                    <label for="{{ log_form.email.id_for_label }}">{{ log_form.email.label }}</label>
+                                    {{ log_form.email }}
+                                </div>
+                                <div class="col-md-7">
+                                    <label for="{{ log_form.password.id_for_label }}">{{ log_form.password.label }}</label>
+                                    {{ log_form.password }}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-primary login_btn">Войти</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="main">
+    <div class="container">
+        <div class="main__inner">
+            <div class="intro">
+                <div class="intro__text">
+                    <p>Экзамены на сотку.</p>
+                    <p>Возможности на сотку.</p>
+                    <p>Жизнь на сотку.</p>
+                </div>
+            </div>
+            <div class="registration">
+                <div class="registration__subjects">
+                    {% for subject in reg_form.subjects %}
+                        <div class="form-check">
+                            {{ subject }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="registration__params">
+                    <div class="mb-2 row">
+                        <label for="{{ reg_form.username.id_for_label }}">{{ reg_form.username.label }}</label>
+                        {{ reg_form.username }}
+                    </div>
+                    <div class="mb-2 row">
+                        <label for="{{ reg_form.email.id_for_label }}">{{ reg_form.email.label }}</label>
+                        {{ reg_form.email }}
+                    </div>
+                    <div class="mb-2 row">
+                        <label for="{{ reg_form.password.id_for_label }}">{{ reg_form.password.label }}</label>
+                        {{ reg_form.password }}
+                    </div>
+                    <div class="mb-2 registration_btn_holder">
+                        <button type="button" class="btn btn-outline-primary registration_btn">
+                            Зарегистрироваться
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script></body>
+</html>

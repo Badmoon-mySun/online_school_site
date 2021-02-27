@@ -1,0 +1,126 @@
+@font-face {
+    font-family: 'Graphik LCG';
+    src: local('GraphikLCG'), local('Graphik-LCG'),
+    url('../fonts/GraphikLCG/GraphikLCG-Light.woff2') format('woff2'),
+    url('../fonts/GraphikLCG/GraphikLCG-Light.woff') format('woff'),
+    url('../fonts/GraphikLCG/GraphikLCG-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+
+    font-family: GraphikLCG, Arial, sans-serif;
+}
+
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+
+.btn {
+    border-radius: 2px;
+    border-width: 2px;
+
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.header__inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    padding: 1.2rem 0;
+}
+
+.header__logo {
+    width: 7vw;
+}
+
+.header__text {
+    font-size: 1.2rem;
+}
+
+.login_btn {
+    padding: .4rem 1.8rem;;
+}
+
+.main:after, .main:before {
+    content: "";
+
+    display: block;
+    position: absolute;
+    top: 34%;
+
+    width: 300px;
+    height: 380px;
+}
+
+.main:after {
+    background: url("../img/auth_right.png") no-repeat;
+    background-size: contain;
+
+    right: 1%;
+}
+
+.main:before {
+    background: url("../img/auth_left.png") no-repeat;
+    background-size: contain;
+
+    left: 1%;
+}
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.intro__text p {
+    margin: 0;
+
+    text-align: center;
+    font-weight: 600;
+    text-transform: lowercase;
+    font-size: 3.5rem;
+    line-height: 1.05;
+
+    color: #151515;
+}
+
+.registration {
+    margin: 3vh auto;
+    max-width: 600px;
+
+    display: flex;
+    justify-content: space-around;
+}
+
+.registration__params label {
+    font-size: .9rem;
+}
+
+.registration__params .form-control {
+    height: 35px;
+
+    border: 1px solid black;
+    border-radius: 20px;
+
+    padding: 0 .8rem;
+    margin: .5vh 0;
+}
+
+.registration_btn_holder {
+    margin: 5vh 0;
+
+    text-align: center;
+}
+
+.registration_btn {
+    padding: .4rem .5rem;;
+}
+
+
+

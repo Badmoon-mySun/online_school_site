@@ -36,7 +36,7 @@ body {
 }
 
 .header__logo {
-    width: 7vw;
+    width: 10vw;
 }
 
 .header__text {
@@ -90,7 +90,7 @@ body {
     color: #151515;
 }
 
-.registration {
+.auth {
     margin: 3vh auto;
     max-width: 600px;
 
@@ -98,12 +98,23 @@ body {
     justify-content: space-around;
 }
 
-.registration__params label {
+.auth__error {
+    text-align: center;
+    font-size: 0.8rem;
+    color: red;
+}
+
+.auth__params {
+    width: 21vw;
+}
+
+.auth__params label {
     font-size: .9rem;
 }
 
-.registration__params .form-control {
+.form-control {
     height: 35px;
+    /*width: 300px;*/
 
     border: 1px solid black;
     border-radius: 20px;
@@ -112,13 +123,13 @@ body {
     margin: .5vh 0;
 }
 
-.registration_btn_holder {
+.auth_btn_holder {
     margin: 5vh 0;
 
     text-align: center;
 }
 
-.registration_btn {
+.auth_btn {
     padding: .4rem .5rem;;
 }
 

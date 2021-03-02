@@ -1,10 +1,11 @@
 from django import forms
+from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
 from main.models import Subject, User
 
 
-class CustomUserCreationForm(forms.Form):
+class UserRegistrationForm(forms.Form):
     username = forms.CharField(label='Ваше имя', widget=forms.TextInput(attrs={'class': 'form-control'}),
                                min_length=1, max_length=15)
     email = forms.CharField(label='Ваш Email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
@@ -20,9 +21,12 @@ class CustomUserCreationForm(forms.Form):
         email = self.cleaned_data['email'].lower()
 
         if User.objects.filter(email=email).count():
-            raise ValidationError('Email already exists')
+            raise ValidationError('Пользователь с таким email уже существует')
 
         return email
+
+    def clean_password(self):
+        validate_password(self.cleaned_data['password'])
 
     def save(self):
 
@@ -39,6 +43,6 @@ class CustomUserCreationForm(forms.Form):
         return user
 
 
-class CustomUserAuthForm(forms.Form):
+class UserLoginForm(forms.Form):
     email = forms.CharField(label='Ваш Email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))

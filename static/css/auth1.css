@@ -27,16 +27,7 @@ body {
 }
 
 .header__inner {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-
     padding: 1.2rem 0;
-}
-
-.header__logo {
-    width: 10vw;
 }
 
 .header__text {
@@ -47,35 +38,10 @@ body {
     padding: .4rem 1.8rem;;
 }
 
-.main:after, .main:before {
-    content: "";
-
-    display: block;
-    position: absolute;
-    top: 34%;
-
-    width: 300px;
-    height: 380px;
-}
-
-.main:after {
-    background: url("../img/auth_right.png") no-repeat;
-    background-size: contain;
-
-    right: 1%;
-}
-
-.main:before {
-    background: url("../img/auth_left.png") no-repeat;
-    background-size: contain;
-
-    left: 1%;
-}
-
-.intro {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.main__inner {
+    background: url("/static/img/auth_right.png") right no-repeat,
+                url("/static/img/auth_left.png") left  no-repeat;
+    background-size: 300px;
 }
 
 .intro__text p {
@@ -91,11 +57,7 @@ body {
 }
 
 .auth {
-    margin: 3vh auto;
-    max-width: 600px;
-
-    display: flex;
-    justify-content: space-around;
+    margin: 1rem auto;
 }
 
 .auth__error {
@@ -104,34 +66,35 @@ body {
     color: red;
 }
 
+
 .auth__params {
-    width: 21vw;
+    max-width: 300px;
 }
 
 .auth__params label {
     font-size: .9rem;
 }
 
-.form-control {
+.auth__params .form-control {
     height: 35px;
-    /*width: 300px;*/
 
     border: 1px solid black;
     border-radius: 20px;
 
     padding: 0 .8rem;
-    margin: .5vh 0;
-}
-
-.auth_btn_holder {
-    margin: 5vh 0;
-
-    text-align: center;
+    margin: 0.3rem 0;
 }
 
 .auth_btn {
     padding: .4rem .5rem;;
 }
 
+@media screen and (max-width: 780px) {
+    .intro__text p {
+        font-size: 2.5rem;
+    }
 
-
+    .main__inner {
+        background: none;
+    }
+}

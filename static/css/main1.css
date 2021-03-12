@@ -1,0 +1,162 @@
+@font-face {
+    font-family: 'Graphik LCG';
+    src: local('GraphikLCG'), local('Graphik-LCG'),
+    url('../fonts/GraphikLCG/GraphikLCG-Light.woff2') format('woff2'),
+    url('../fonts/GraphikLCG/GraphikLCG-Light.woff') format('woff'),
+    url('../fonts/GraphikLCG/GraphikLCG-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+
+    font-family: GraphikLCG, Arial, sans-serif;
+}
+
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+
+.header__inner {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    padding: .2rem 0;
+}
+
+.header__coins {
+    display: flex;
+    align-items: end;
+    background-color: #f2f2f2;
+
+    padding: .5rem 1rem;
+    margin: 0 1rem;
+
+    border-radius: .5rem;
+}
+
+.coins_icon img {
+    width: 1rem;
+    height: 1rem;
+}
+
+.coins_text {
+    text-transform: lowercase;
+    font-size: 0.9rem;
+}
+
+.coins_number {
+    margin: 0 3px 0 5px;
+    font-weight: bold;
+}
+
+.user__img {
+    vertical-align: middle;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: grey;
+}
+
+.main__inner {
+    background-color: #eff3fc;
+
+    display: flex;
+}
+
+.main__nav {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: bold;
+    font-size: .9rem;
+    line-height: 2;
+    color: #808080;
+
+    margin: .2rem 0;
+    padding: .5rem 2rem;
+
+    background-color: white;
+    border-radius: .2rem;
+
+    width: 23%;
+}
+
+.main__nav a {
+    color: #808080;
+    text-decoration: none;
+}
+
+.main__nav a:hover {
+    color: #676767;
+}
+
+.main__nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav_col li {
+    padding: 0 0 0 .5rem;
+}
+
+.nav_elem ul {
+    margin: 0 0 0 .5rem;
+}
+
+.nav_elem .active {
+    border-radius: .5rem;
+
+    background-color: #dadaff;
+}
+.main__content {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: bold;
+    color: #2c2c2c;
+
+    width: 80%;
+    height: 88vh;
+    overflow-y: auto;
+}
+
+.test {
+    width: 90%;
+
+    margin: 10px auto 0 auto;
+    padding: 10px;
+}
+
+.test-border {
+    border: solid 1px #292929;
+    border-radius: 10px;
+}
+
+.subject_link {
+    text-decoration: none;
+    color: #2c2c2c;
+}
+
+.subject_link:hover {
+    color: #292929;
+}
+
+.bi-check2 {
+    width: 40px;
+    height: 40px;
+
+    color: green;
+}
+
+.bi-clock {
+    width: 30px;
+    height: 30px;
+
+    color: orange;
+}
+
+

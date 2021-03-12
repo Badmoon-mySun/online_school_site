@@ -130,3 +130,8 @@ LOGIN_URL = '/login/'
 HOME_URL = '/home/'
 
 AUTH_USER_MODEL = 'main.User'
+
+import dj_database_url
+
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)

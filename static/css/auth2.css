@@ -39,9 +39,11 @@ body {
 }
 
 .main__inner {
-    background: url("/static/img/auth_right.png") right no-repeat,
-                url("/static/img/auth_left.png") left  no-repeat;
+    background: url("/static/img/auth_right.png") right 80px no-repeat,
+                url("/static/img/auth_left.png") left 80px no-repeat;
     background-size: 300px;
+
+    min-height: 80vh;
 }
 
 .intro__text p {
@@ -61,11 +63,9 @@ body {
 }
 
 .auth__error {
-    text-align: center;
     font-size: 0.8rem;
     color: red;
 }
-
 
 .auth__params {
     max-width: 300px;
@@ -96,5 +96,18 @@ body {
 
     .main__inner {
         background: none;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .intro__text {
+        margin: 1rem 0;
+    }
+    .intro__text p {
+        font-size: 2rem;
+        font-weight: initial;
+    }
+    .auth__subjects {
+        margin: 1rem 0;
     }
 }

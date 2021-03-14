@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from main.decorators import anonymous_required, test_not_finished_required
 from main.forms import UserRegistrationForm, UserLoginForm, TestForm
-from main.models import Question, Test, Subject, TestHistory
+from main.models import Question, Test, Subject, TestHistory, CourseVideo
 from main.services import save_user_test
 
 
@@ -71,7 +71,7 @@ def home_view(request):
 
 @login_required
 def homework_view(request, subject_id):
-    subject = Subject.objects.get(id=subject_id)
+    subject = get_object_or_404(Subject, id=subject_id)
     tests_all = Test.objects.filter(subject_id=subject.id)
 
     tests_done = TestHistory.objects.filter(test__subject_id=subject.id, user_id=request.user.id)
@@ -85,5 +85,13 @@ def homework_view(request, subject_id):
     return render(request, 'main/homeworks.html', {'page_subject': subject, 'tests_done': tests_done, 'tests': tests})
 
 
+def course_view(request, course_id):
+    subject = get_object_or_404(Subject, id=course_id)
+    videos = CourseVideo.objects.filter(subject_id=subject.id)
+
+    return render(request, 'main/courses.html', {'page_subject': subject, 'videos': videos})
+
+
 def schedule_view(request):
     return render(request, 'main/schedule.html')
+

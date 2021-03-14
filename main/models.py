@@ -13,6 +13,9 @@ class Subject(models.Model):
     def get_url_on_homework(self):
         return reverse('homework', kwargs={'subject_id': self.id})
 
+    def get_url_on_course(self):
+        return reverse('course', kwargs={'course_id': self.id})
+
     def __str__(self):
         return self.name
 
@@ -71,6 +74,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+class CourseVideo(models.Model):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, blank=False, null=False, verbose_name='Предмет')
+    url = models.URLField(verbose_name='Ссылка на видео')
 
 
 class Test(models.Model):

@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/main2.css' %}">
-    <title>{{ form.test.name }}</title>
+    <title>Домашнее задание</title>
 </head>
 <body>
 <header class="header">
@@ -92,49 +92,21 @@
                 </ul>
             </div>
             <div class="col-12 col-md main__content">
-                <div class="heading text-center m-3">
-                    <h3>{{ form.test.name }}</h3>
-                    <h5>{{ form.test.theme }}</h5>
+                <div class="row pt-2 ms-2 content__course_name">
+                    <div class="col-auto">
+                        <h5>{{ page_subject.name }}</h5>
+                    </div>
                 </div>
-
-                <form method="post">
-                    {% csrf_token %}
-
-                    {% for field in form %}
-                        <div class="row test_elem py-4">
-                            <div class="col">
-                                <div class="question_num">
-                                    <h5><strong>{{ field.label }}</strong></h5>
-                                </div>
-                                <div class="question_text">
-                                    <p>{{ field.field.text | linebreaks }}</p>
-                                </div>
-
-                                {% if field.field.image_url %}
-                                    <div class="row justify-content-center mb-3">
-                                        <div class="col-9 col-sm-7">
-                                            <img src="{{ field.field.image_url }}"
-                                                 class="rounded mx-auto d-block mw-100"
-                                                 alt="">
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                <div class="row">
-                                    <label for="{{ field.id_for_label }}"
-                                           class="col-auto col-form-label">Ответ:</label>
-                                    <div class="col-9 mx-1">
-                                        {{ field }}
-                                    </div>
-                                </div>
-                            </div>
+                <div class="row content__video_list">
+                    {% for video in videos %}
+                        <div class="col-auto col-md-6 col-lg-4 video_holder">
+                            <iframe src="{{ video.url }}"
+                                    class="my-3 video"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
                         </div>
                     {% endfor %}
-                    <div class="row justify-content-center mb-4">
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary">Завершить тест</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

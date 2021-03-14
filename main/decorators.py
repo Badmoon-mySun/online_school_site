@@ -19,7 +19,7 @@ def anonymous_required(func):
 def test_not_finished_required(func):
     def as_view(request, *args, **kwargs):
         user = request.user
-        test = TestHistory.objects.filter(user=user)
+        test = TestHistory.objects.filter(user=user, test_id=kwargs['test_id'])
         if test:
             raise Http404
 

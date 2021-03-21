@@ -59,12 +59,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
     <script>
-        {% for test_id, sources in tests_source.items %}
-            var ctx = document.getElementById('chart-{{ test_id }}').getContext('2d');
+        {% for test, sources in tests_source.items %}
+            var ctx = document.getElementById('chart-{{ test.id }}').getContext('2d');
             var myLineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: [{% for i in sources %} {{ i }}, {% endfor %}],
+                    labels: [{% for i in sources %} 'Вопрос №{{ forloop.counter }}', {% endfor %}],
                     datasets: [{
                         label: 'Количество справившихся с вопросом',
                         data: [{% for i in sources %} {{ i }}, {% endfor %}],
@@ -73,6 +73,15 @@
                 },
 
                 options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: {{ test.get_count_passes_user }},
+                                stepSize: 1,
+                            }
+                        }]
+                    },
                     legend: {
                         display: false,
                     },

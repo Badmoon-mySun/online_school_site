@@ -85,6 +85,9 @@ class Test(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False, verbose_name='Название теста')
     theme = models.CharField(max_length=100, blank=False, null=False, verbose_name='Тема')
 
+    def get_count_passes_user(self):
+        return TestHistory.objects.filter(test_id=self.id).aggregate(count=Count('id'))['count']
+
     def get_absolute_url(self):
         return reverse('test', kwargs={'test_id': self.id})
 

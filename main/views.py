@@ -63,7 +63,7 @@ def teacher_hw_view(request, subject_id):
     tests_source = {}
 
     for test in tests:
-        tests_source[str(test.id)] = get_test_questions_sources(test)
+        tests_source[test] = get_test_questions_sources(test)
 
     context['tests_source'] = tests_source
     context.update(get_pagination_vars(request, tests))

@@ -39,11 +39,13 @@ body {
 }
 
 .main__inner {
-    background: url("/static/img/auth_right.png") right 80px no-repeat,
-                url("/static/img/auth_left.png") left 80px no-repeat;
-    background-size: 300px;
+    background: url("/static/img/auth_right.png") right no-repeat,
+                url("/static/img/auth_left.png") left  no-repeat;
+    background-size: 18.75rem;
+}
 
-    min-height: 80vh;
+.container-fluid {
+    max-width: 2500px;
 }
 
 .intro__text p {
@@ -63,12 +65,13 @@ body {
 }
 
 .auth__error {
+    text-align: center;
     font-size: 0.8rem;
     color: red;
 }
 
 .auth__params {
-    max-width: 300px;
+    max-width: 18.75rem;
 }
 
 .auth__params label {
@@ -76,7 +79,7 @@ body {
 }
 
 .auth__params .form-control {
-    height: 35px;
+    height: 2.2rem;
 
     border: 1px solid black;
     border-radius: 20px;
@@ -87,6 +90,24 @@ body {
 
 .auth_btn {
     padding: .4rem .5rem;;
+}
+
+@media screen and (min-width: 1440px) {
+    html {
+        font-size: 120%;
+    }
+}
+
+@media screen and (min-width: 1680px) {
+    html {
+        font-size: 140%;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    html {
+        font-size: 180%;
+    }
 }
 
 @media screen and (max-width: 780px) {

@@ -1,106 +1,53 @@
-<!DOCTYPE html>
+{% extends 'main/main_base.html' %}
 
-{% load static %}
+{% block title %}
+    <title>Расписание</title>
+{% endblock %}
 
-<html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/main2.css' %}">
-    <title>Домашнее задание</title>
-</head>
-<body>
-<header class="header">
-    <div class="container">
-        <div class="header__inner">
-            <div class="header__menu">
-                <button class="btn menu_btn" type="button" data-bs-toggle="collapse" data-bs-target="#main__nav"
-                        aria-expanded="false" aria-controls="main__nav">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                         class="bi bi-list" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"></path>
-                    </svg>
-                </button>
-            </div>
-            <a href="https://vk.com/sotka_shop" class="header__coins">
-                <div class="coins_icon">
-                    <img src="{% static 'img/coin.png' %}" alt="Коины">
-                </div>
-                <div class="coins_number">
-                    {{ request.user.coins }}
-                </div>
-                <div class="coins_text">
-                    Коинов
-                </div>
-            </a>
-            <div class="header__user">
-                <button type="button" class="btn btn-link dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                    <img class="user__img" src="{% static 'img/avatar.jpg' %}" alt="cat">
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Личный кабинет</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
-                </ul>
-            </div>
+{% block main_content %}
+    <div class="row">
+        <div class="col schedule_handler py-2">
+            <img class="schedule_img" src="{{ schedule.image.url }}" alt="Schedule">
         </div>
     </div>
-</header>
-<div class="main">
-    <div class="container">
-        <div class="row main__inner">
-            <div class="col col-md-4 col-lg-3 pe-0 collapse main__nav" id="main__nav">
-                <ul class="nav_col">
-                    <li class="nav_elem">
-                        <a class="nav_elem_btn" data-bs-toggle="collapse" href="#nav_homework" role="button"
-                           aria-expanded="true" aria-controls="nav_homework">Домашнее задание</a>
-                        <ul class="nav_homework collapse show" id="nav_homework">
-                            {% for subject in request.user.subjects.all %}
-                                <li class="nav_elem {% if page_subject == subject %} active_elem {% endif %}">
-                                    <a href="{{ subject.get_url_on_homework }}">{{ subject }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="nav_elem">
-                        <a class="nav_elem_btn" data-bs-toggle="collapse" href="#nav_subjects" role="button"
-                           aria-expanded="false" aria-controls="nav_subjects">Курсы</a>
-                        <ul class="nav_subjects collapse" id="nav_subjects">
-                            {% for subject in request.user.subjects.all %}
-                                <li class="nav_elem">
-                                    <a href="{{ subject.get_url_on_course }}">{{ subject }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="nav_elem">
-                        <div class="nav_line"></div>
-                    </li>
-                    <li class="nav_elem">
-                        <a href="{% url 'schedule' %}"><img class="nav_elem_img" src="{% static 'img/calendar.svg' %}"
-                                                            alt="Расписание">Расписание</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-12 col-md main__content">
-                <div class="schedule_handler py-2">
-                    <img class="schedule_img" src="{% static 'img/schedule.png' %}" alt="Schedule">
+    {% if request.user.role == 'teacher' %}
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-secondary my-2" data-bs-toggle="modal"
+                        data-bs-target="#modalForm">
+                    Загрузить новое расписание
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="modalForm" data-bs-backdrop="static"
+                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalForm"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form method="post" action="{% url 'schedule' %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Загрузка нового
+                                        расписания</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {{ form.image }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Закрыть
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Загрузить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
-    </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-        crossorigin="anonymous"></script>
-</body>
-</html>
+    {% endif %}
+{% endblock %}

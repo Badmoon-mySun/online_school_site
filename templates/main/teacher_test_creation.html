@@ -1,0 +1,97 @@
+{% extends 'main/teacher_base.html' %}
+
+{% block title %}
+    <title>Создание теста</title>
+{% endblock %}
+
+{% block teacher_content %}
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <h4>Создание теста</h4>
+        </div>
+    </div>
+    <form method="post" action="{% url 'teacher_test_creation' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-8">
+                <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                {{ form.name }}
+            </div>
+            <div class="col-4">
+                <label for="{{ form.subject.id_for_label }}">{{ form.subject.label }}</label>
+                {{ form.subject }}
+            </div>
+        </div>
+        <div class="row align-items-end">
+            <div class="col-9">
+                <label for="{{ form.theme.id_for_label }}">{{ form.theme.label }}</label>
+                {{ form.theme }}
+            </div>
+            <div class="col-3 text-end">
+                <button type="submit" class="btn btn-success">Сохранить тест</button>
+            </div>
+        </div>
+        <div class="row border-bottom border-2 justify-content-center p-3 my-4">
+            <div class="col-auto">
+                <h5>Вопросы</h5>
+            </div>
+        </div>
+        <div class="questions" id="questions">
+
+        </div>
+        <div class="row justify-content-center my-4">
+            <div class="col-auto">
+                <button class="btn btn-primary" type="button" id="addButton">Добавить вопрос</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block pagination %}{% endblock %}
+
+{% block script %}
+    <script>
+        let questions = document.getElementById('questions');
+        let addButton = document.getElementById('addButton');
+
+        let i = 1
+
+        function getCard(i) {
+            return "<div class=\"card my-3\">\n" +
+                "                        <h5 class=\"card-header text-end\">\n" +
+                "                            <button class=\"btn btn-danger\" type=\"button\" onclick=\"this.parentNode.parentNode.remove()\">X</button>\n" +
+                "                        </h5>\n" +
+                "                        <div class=\"card-body\">\n" +
+                "                            <div class=\"row my-1\">\n" +
+                "                                <div class=\"col\">\n" +
+                "                                    <label for=\"question_text_" + i + "\" class=\"form-label\">Вопрос</label>\n" +
+                "                                    <textarea class=\"form-control\" name=\"question_text_" + i + "\" id=\"question_text_" + i + "\"\n" +
+                "                                              rows=\"4\" required></textarea>\n" +
+                "                                </div>\n" +
+                "                            </div>\n" +
+                "                            <div class=\"row my-1\">\n" +
+                "                                <div class=\"col\">\n" +
+                "                                    <label for=\"image_" + i + "\" class=\"form-label\">Изображение для вопроса</label>\n" +
+                "                                    <input class=\"form-control\" type=\"file\" id=\"image_" + i + "\" name=\"image_" + i + "\">\n" +
+                "                                </div>\n" +
+                "                            </div>\n" +
+                "                            <div class=\"row my-1\">\n" +
+                "                                <div class=\"col-6\">\n" +
+                "                                    <label for=\"answer_" + i + "\">Ответ</label>\n" +
+                "                                    <input type=\"text\" class=\"form-control\" name=\"answer_" + i + "\" id=\"answer_" + i + "\" required>\n" +
+                "                                </div>\n" +
+                "                                <div class=\"col-6\">\n" +
+                "                                    <label for=\"source_" + i + "\">Балл за вопрос</label>\n" +
+                "                                    <input type=\"number\" class=\"form-control\" name=\"source_" + i + "\" id=\"source_" + i + "\" min=\"0\" required>\n" +
+                "                                </div>\n" +
+                "                            </div>\n" +
+                "                        </div>\n" +
+                "                    </div>"
+        }
+
+        addButton.onclick = function () {
+            questions.insertAdjacentHTML("beforeEnd", getCard(i));
+            i++;
+        }
+    </script>
+{% endblock %}

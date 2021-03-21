@@ -1,0 +1,71 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Панель преподавателя</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse mt-2" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'teacher_hw' subject_id=0 %}">Статистика заданий</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'teacher_test_creation' %}">Создать задание</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'teacher_video' subject_id=0 %}">Видео курсы</a>
+                        </li>
+                    </ul>
+
+                    <a class="navbar-text btn btn-light" href="{% url 'profile' %}">Вернуться на сайт</a>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+    <div class="main">
+        <div class="container">
+            <div class="main__inner w-75 mx-auto my-4">
+
+                {% block teacher_content %}{% endblock %}
+
+                {% block pagination %}
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ previous_url }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    {% for number in paginator_object.paginator.page_range %}
+                                        {% if paginator_object.number == number %}
+                                            <li class="page-item active"><a class="page-link"
+                                                                            href="?page={{ number }}">{{ number }}</a>
+                                            </li>
+                                        {% elif number > paginator_object.number|add:-2 and number < paginator_object.number|add:2 %}
+                                            <li class="page-item"><a class="page-link"
+                                                                     href="?page={{ number }}">{{ number }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ next_url }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

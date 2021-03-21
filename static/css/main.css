@@ -211,7 +211,13 @@ body {
     max-width: 100%;
 }
 
-/* schedule page */
+/* profile page */
+
+.field_error {
+    text-align: center;
+    font-size: 0.7rem;
+    color: red;
+}
 
 .schedule_img {
     width: 100%;

@@ -1,161 +1,78 @@
-<!DOCTYPE html>
+{% extends 'main/main_base.html' %}
 
-{% load static %}
+{% block title %}
+    <title>Домашние задания</title>
+{% endblock %}
 
-<html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/main2.css' %}">
-    <title>Домашнее задание</title>
-</head>
-<body>
-<header class="header">
-    <div class="container">
-        <div class="header__inner">
-            <div class="header__menu">
-                <button class="btn menu_btn" type="button" data-bs-toggle="collapse" data-bs-target="#main__nav"
-                        aria-expanded="false" aria-controls="main__nav">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-                         class="bi bi-list" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"></path>
-                    </svg>
-                </button>
-            </div>
-            <a href="https://vk.com/sotka_shop" class="header__coins">
-                <div class="coins_icon">
-                    <img src="{% static 'img/coin.png' %}" alt="Коины">
-                </div>
-                <div class="coins_number">
-                    {{ request.user.coins }}
-                </div>
-                <div class="coins_text">
-                    Коинов
-                </div>
-            </a>
-            <div class="header__user">
-                <button type="button" class="btn btn-link dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                    <img class="user__img" src="{% static 'img/avatar.jpg' %}" alt="cat">
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Личный кабинет</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
-                </ul>
-            </div>
+{% block nav_homework %}
+    <a class="nav_elem_btn" data-bs-toggle="collapse" href="#nav_homework" role="button"
+       aria-expanded="true" aria-controls="nav_homework">Домашнее задание</a>
+    <ul class="nav_homework collapse show" id="nav_homework">
+        {% for subject in request.user.subjects.all %}
+            <li class="nav_elem {% if page_subject == subject %} active_elem {% endif %}">
+                <a href="{{ subject.get_url_on_homework }}">{{ subject }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block main_content %}
+    <div class="test row align-items-center justify-content-between">
+        <div class="col-7 col-sm-6 text-center">
+            Тема
+        </div>
+        <div class="col-1">
+            Баллы
+        </div>
+        <div class="col-2 text-center">
+            Статус
         </div>
     </div>
-</header>
-<div class="main">
-    <div class="container">
-        <div class="row main__inner">
-            <div class="col col-md-4 col-lg-3 pe-0 collapse main__nav" id="main__nav">
-                <ul class="nav_col">
-                    <li class="nav_elem">
-                        <a class="nav_elem_btn" data-bs-toggle="collapse" href="#nav_homework" role="button"
-                           aria-expanded="true" aria-controls="nav_homework">Домашнее задание</a>
-                        <ul class="nav_homework collapse show" id="nav_homework">
-                            {% for subject in request.user.subjects.all %}
-                                <li class="nav_elem {% if page_subject == subject %} active_elem {% endif %}">
-                                    <a href="{{ subject.get_url_on_homework }}">{{ subject }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="nav_elem">
-                        <a class="nav_elem_btn" data-bs-toggle="collapse" href="#nav_subjects" role="button"
-                           aria-expanded="false" aria-controls="nav_subjects">Курсы</a>
-                        <ul class="nav_subjects collapse" id="nav_subjects">
-                            {% for subject in request.user.subjects.all %}
-                                <li class="nav_elem">
-                                    <a href="{{ subject.get_url_on_course }}">{{ subject }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="nav_elem">
-                        <div class="nav_line"></div>
-                    </li>
-                    <li class="nav_elem">
-                        <a href="{% url 'schedule' %}"><img class="nav_elem_img" src="{% static 'img/calendar.svg' %}"
-                                                            alt="Расписание">Расписание</a>
-                    </li>
-                </ul>
+    {% for test in tests %}
+        <div class="row align-items-center justify-content-between shadow test test-border">
+            <div class="col-7 col-sm-6 test_name_holder">
+                <a href="{{ test.get_absolute_url }}" class="test_link">
+                    <div class="test_num">
+                        {{ test.name }}
+                    </div>
+                    <div class="test_name">
+                        {{ test.theme }}
+                    </div>
+                </a>
             </div>
-            <div class="col-12 col-md main__content">
-                <div class="test row align-items-center justify-content-between">
-                    <div class="col-7 col-sm-6 text-center">
-                        Тема
-                    </div>
-                    <div class="col-1">
-                        Баллы
-                    </div>
-                    <div class="col-2 text-center">
-                        Статус
-                    </div>
-                </div>
-                {% for test in tests_done %}
-                    <div class="row align-items-center justify-content-between shadow test test-border">
-                        <div class="col-7 col-sm-6 test_name_holder">
-                            <div class="test_link">
-                                <div class="test_num">
-                                    {{ test.test.name }}
-                                </div>
-                                <div class="test_name">
-                                    {{ test.test.theme }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-1 test_source">
-                            {{ test.primary_source }}/{{ test.test.get_test_source }}
-                        </div>
-                        <div class="col-2 text-center test_is_finished">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-check2"
-                                 viewBox="0 0 16 16">
-                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
-                            </svg>
-                        </div>
-                    </div>
-                {% endfor %}
-                {% for test in tests %}
-                    <div class="row align-items-center justify-content-between shadow test test-border">
-                        <div class="col-7 col-sm-6 test_name_holder">
-                            <a href="{{ test.get_absolute_url }}" class="test_link">
-                                <div class="test_num">
-                                    {{ test.name }}
-                                </div>
-                                <div class="test_name">
-                                    {{ test.theme }}
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-1 test_source">
-                            0/{{ test.get_test_source }}
-                        </div>
-                        <div class="col-2 text-center test_is_finished">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-clock"
-                                 viewBox="0 0 16 16">
-                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
-                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                {% endfor %}
+            <div class="col-1 test_source">
+                0/{{ test.get_test_source }}
+            </div>
+            <div class="col-2 text-center test_is_finished">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-clock"
+                     viewBox="0 0 16 16">
+                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+                </svg>
             </div>
         </div>
-    </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-        crossorigin="anonymous"></script>
-</body>
-</html>
+    {% endfor %}
+    {% for test in tests_done %}
+        <div class="row align-items-center justify-content-between shadow test test-border">
+            <div class="col-7 col-sm-6 test_name_holder">
+                <div class="test_link">
+                    <div class="test_num">
+                        {{ test.test.name }}
+                    </div>
+                    <div class="test_name">
+                        {{ test.test.theme }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-1 test_source">
+                {{ test.primary_source }}/{{ test.test.get_test_source }}
+            </div>
+            <div class="col-2 text-center test_is_finished">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-check2"
+                     viewBox="0 0 16 16">
+                    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                </svg>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,14 +1,14 @@
-from django.conf import settings
-from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager as DjangoUserManager
+from django.contrib.auth.models import PermissionsMixin, UserManager
 from django.core.mail import send_mail
 from django.db import models
-from django.db.models import Sum, Max, F
+from django.db.models import Sum, F, Count
 from django.urls import reverse
+from djchoices import ChoiceItem, DjangoChoices
 
 
 class Subject(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Название')
+    name = models.CharField(max_length=100, unique=True, verbose_name='Название')
 
     def get_url_on_homework(self):
         return reverse('homework', kwargs={'subject_id': self.id})
@@ -24,19 +24,7 @@ class Subject(models.Model):
         verbose_name_plural = 'Предметы'
 
 
-class UserManager(BaseUserManager):
-    use_in_migrations = True
-
-    def _create_user(self, email, password, **extra_fields):
-        if not email:
-            raise ValueError('email должен быть указан')
-
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
+class CustomUserManager(DjangoUserManager):
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
 
@@ -52,15 +40,21 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
+class Role(DjangoChoices):
+    admin = ChoiceItem()
+    student = ChoiceItem()
+    teacher = ChoiceItem()
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=50, unique=True, verbose_name='Email')
     username = models.CharField(max_length=30, blank=False, verbose_name='Имя')
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name='Время регистрации')
     is_active = models.BooleanField(default=True, verbose_name='Активен')
-    is_staff = models.BooleanField(default=False, verbose_name='Сотрудник')
-    avatar = models.ImageField(upload_to='avatars/', default=settings.DEFAULT_USER_AVATAR,
-                               null=True, blank=True, verbose_name='Аватар')
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True, verbose_name='Аватар')
     coins = models.PositiveIntegerField(default=0, null=False, verbose_name='Коины')
+    is_staff = models.BooleanField(default=False, verbose_name='Сотрудник')
+    role = models.CharField(choices=Role.choices, default=Role.student, max_length=50)
     subjects = models.ManyToManyField(Subject, blank=True)
 
     objects = UserManager()
@@ -80,6 +74,11 @@ class CourseVideo(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, blank=False, null=False, verbose_name='Предмет')
     url = models.URLField(verbose_name='Ссылка на видео')
 
+    class Meta:
+        verbose_name_plural = 'Видео'
+        verbose_name = 'Видео'
+        ordering = ['-id']
+
 
 class Test(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, blank=False, null=False, verbose_name='Предмет')
@@ -92,13 +91,21 @@ class Test(models.Model):
     def get_test_source(self):
         return self.question_set.aggregate(Sum(F('primary_score')))['primary_score__sum']
 
+    class Meta:
+        verbose_name_plural = 'Тесты'
+        verbose_name = 'Тест'
+
 
 class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE, blank=False, null=False, verbose_name='Тест')
-    image = models.ImageField(upload_to='question/', null=True, blank=True, verbose_name='Изображение вопроса')
+    image = models.ImageField(upload_to='questions/', null=True, blank=True, verbose_name='Изображение вопроса')
     question_text = models.TextField(max_length=1000, blank=False, null=False, verbose_name='Содержание вопроса')
     answer = models.CharField(max_length=50, blank=False, null=False, verbose_name='Ответ')
     primary_score = models.PositiveIntegerField(blank=False, null=False, verbose_name='Первичный балл')
+
+    class Meta:
+        verbose_name_plural = 'Вопрос'
+        verbose_name = 'Вопросы'
 
 
 class TestHistory(models.Model):
@@ -113,3 +120,18 @@ class AnswerHistory(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=False, null=False, verbose_name='Вопрос')
     user_answer = models.CharField(max_length=50, blank=False, null=False, verbose_name='Ответ')
     is_correct = models.BooleanField(blank=False, null=False, verbose_name='Ответ верный?')
+
+    @staticmethod
+    def get_count_correct_answers_for_question(question: Question):
+        return AnswerHistory.objects.filter(question=question).filter(is_correct=True).aggregate(count=Count('id'))[
+            'count']
+
+
+class Schedule(models.Model):
+    image = models.ImageField(default=None, upload_to='schedules/', verbose_name='Изображение с расписанием')
+    upload_date = models.DateTimeField(auto_now=True, verbose_name='Время загрузки')
+
+    class Meta:
+        verbose_name_plural = 'Расписание'
+        verbose_name = 'Расписания'
+        ordering = ['-upload_date']

@@ -1,0 +1,54 @@
+{% extends 'main/main_base.html' %}
+
+{% block title %}
+    <title>Профиль</title>
+{% endblock %}
+
+{% block main_content %}
+    <div class="row p-3 ">
+        <h3>Мой профиль</h3>
+        <p class="m-0" style="font-size: .8rem">Проверьте и отредактируйте личную информацию ниже.</p>
+    </div>
+    <div class="nav_line"></div>
+    <form method="post" action="{% url 'profile' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row justify-content-around my-3">
+            <div class="col-5">
+                {% for field in form %}
+                    {% if field.name != 'subjects' %}
+                        <div class="my-3">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% for error in field.errors %}
+                                <div class="row field_error">
+                                    <p class="m-0">{{ error | escape }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-5">
+                <div class="me-3 auth__subjects">
+                    <div class="field_error">
+                        {% for error in form.subjects.errors %}
+                            {{ error | escape }}
+                        {% endfor %}
+                    </div>
+                    <p>Предметы:</p>
+
+                    {% for subject in form.subjects %}
+                        <div class="form-check">
+                            {{ subject }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Обновить</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

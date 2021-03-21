@@ -102,7 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -123,11 +123,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #     os.path.join(BASE_DIR, "static"),
 # ]
 
-DEFAULT_USER_AVATAR = 'default.jpg'
-
 LOGIN_URL = '/login/'
 
-HOME_URL = '/home/'
+HOME_URL = '/'
 
 AUTH_USER_MODEL = 'main.User'
 

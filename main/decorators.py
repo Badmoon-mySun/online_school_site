@@ -1,7 +1,8 @@
+from django.contrib.auth.decorators import user_passes_test
 from django.http import Http404
 from django.shortcuts import redirect
 
-from main.models import TestHistory
+from main.models import TestHistory, Role
 from online_school_site import settings
 
 
@@ -26,3 +27,6 @@ def test_not_finished_required(func):
         return func(request, *args, **kwargs)
 
     return as_view
+
+
+teacher_required = user_passes_test(lambda user: user.role == Role.teacher)

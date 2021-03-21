@@ -1,0 +1,39 @@
+{% extends "main/base.html" %}
+
+{% load static %}
+
+{% block stylesheet %}
+    <link href="{% static 'css/auth.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <header class="header">
+        <div class="container-fluid">
+            <div class="row justify-content-around align-items-center header__inner">
+                <div class="col-md-3 header__logo"></div>
+                <div class="col-auto col-md-auto header__text">
+                    Онлайн школа ЕГЭ и ОГЭ
+                </div>
+                <div class="col-auto col-md-3 header__login">
+                    {% block auth_button %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="main">
+        <div class="container-fluid">
+            <div class="main__inner">
+                <div class="row justify-content-center intro">
+                    <div class="col intro__text">
+                        <p>Экзамены на сотку.</p>
+                        <p>Возможности на сотку.</p>
+                        <p>Жизнь на сотку.</p>
+                    </div>
+                </div>
+
+                {% block auth_form %}{% endblock %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -138,7 +138,6 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-
 import dj_database_url
 
 db_from_env = dj_database_url.config()

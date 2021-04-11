@@ -8,6 +8,17 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'TT Commons';
+    src: url('../fonts/TTCommons/TTCommons-Regular.eot');
+    src: local('TT Commons Regular'), local('TTCommons-Regular'),
+        url('../fonts/TTCommons/TTCommons-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/TTCommons/TTCommons-Regular.woff') format('woff'),
+        url('../fonts/TTCommons/TTCommons-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     margin: 0;
 
@@ -20,17 +31,28 @@ body {
 
 .header__inner {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
 
     padding: .2rem 0;
+}
+
+.header__logo a img {
+    height: 25px;
 }
 
 .header__menu {
     display: none;
 }
 
+.header_right {
+    display: flex;
+    align-items: center;
+}
+
 .header__coins {
+    height: 40px;
+
     display: flex;
     align-items: center;
     background-color: #f2f2f2;
@@ -81,9 +103,9 @@ body {
 }
 
 .main__nav {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-weight: bold;
-    font-size: .9rem;
+    font-family: 'TT Commons', sans-serif;
+    /*font-weight: bold;*/
+    font-size: 100%;
     line-height: 2;
     color: #808080;
 
@@ -101,6 +123,7 @@ body {
 }
 
 .main__nav a {
+    position: relative;
     color: #808080;
     text-decoration: none;
 }
@@ -124,8 +147,8 @@ body {
 }
 
 .nav_elem_img {
-    width: 20px;
-    height: 20px;
+    width: 1rem;
+    height: 1rem;
 }
 
 .active_elem {
@@ -137,7 +160,7 @@ body {
 }
 
 .active_elem a {
-    color: #65acd3;
+    color:#0a98fe;
 }
 
 .active_elem a:hover {
@@ -150,16 +173,20 @@ body {
     margin: .7rem 0;
 }
 
-.nav_elem_btn::before {
+.nav_elem_btn::after {
     display: inline-block;
-    width: 1.2rem;
+
+    position: relative;
+    left: .5rem;
+    text-align: center;
+
     line-height: 0;
-    content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
-    transition: transform 0.35s ease;
-    transform-origin: .5em 50%;
+    content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+    transform: rotate(-90deg);
+    transition: transform 0.25s linear;
 }
 
-.nav_elem_btn[aria-expanded="true"]::before {
+.nav_elem_btn[aria-expanded="true"]::after {
     transform: rotate(90deg);
 }
 

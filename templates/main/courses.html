@@ -38,8 +38,14 @@
 {% block main_content %}
     <div class="row pt-2 ms-2 content__course_name">
         <div class="col-auto">
-            <h5>{{ page_subject.name }}</h5>
+            <h5 class="mt-1">{{ page_subject.name }}</h5>
         </div>
+        <form class="col" method="get">
+        <div class="input-group mb-1">
+            <input type="text" class="form-control" placeholder="Поиск видео по названию" aria-label="" aria-describedby="button-addon1">
+            <button class="btn btn-primary" type="submit">Найти</button>
+        </div>
+    </form>
     </div>
     <div class="row content__video_list">
         {% for video in videos %}

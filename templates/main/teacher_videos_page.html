@@ -42,7 +42,13 @@
     {% for video in paginator_object %}
         <div class="card my-3">
             <div class="card-header row justify-content-between align-items-center">
-                <strong class="col-auto">{{ video.url }}</strong>
+                <strong class="col-auto">
+                    {% if video.title %}
+                        {{ video.title }}
+                    {% else %}
+                        {{ video.url }}
+                    {% endif %}
+                </strong>
                 <form class="col-auto" method="post"
                       action="{% url 'teacher_video' subject_id=subject_page.id %}">
                     {% csrf_token %}

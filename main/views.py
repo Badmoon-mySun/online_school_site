@@ -9,6 +9,7 @@ from main.decorators import *
 from main.forms import UserRegistrationForm, UserLoginForm, TestForm, TestCreationForm, ScheduleForm, ProfileUpdateForm
 from main.models import Question, Test, Subject, TestHistory, CourseVideo, Schedule, User
 from main.services import save_user_test, get_test_questions_sources, get_pagination_vars, get_subject_of_page_and_all
+from main.utils import get_video_title, get_video_id
 
 
 @login_required
@@ -16,7 +17,9 @@ from main.services import save_user_test, get_test_questions_sources, get_pagina
 def teacher_video_view(request, subject_id):
     if request.method == 'POST':
         if 'new_video' in request.POST.keys():
-            video = CourseVideo(url=request.POST['new_video'], subject_id=subject_id)
+            video_id = get_video_id(request.POST['new_video'])
+            title = get_video_title(video_id)
+            video = CourseVideo(url='https://www.youtube.com/embed/%s' % video_id, title=title, subject_id=subject_id)
             video.save()
         else:
             video = CourseVideo.objects.get(id=request.POST['video_id'])
@@ -151,7 +154,9 @@ def homework_view(request, subject_id):
 @login_required
 def course_view(request, course_id):
     subject = get_object_or_404(Subject, id=course_id)
-    videos = CourseVideo.objects.filter(subject_id=subject.id)
+    search = request.GET.get('name', '')
+    print(search)
+    videos = CourseVideo.objects.filter(title__icontains=search, subject_id=subject.id)
 
     return render(request, 'main/courses.html', {'page_subject': subject, 'videos': videos})
 

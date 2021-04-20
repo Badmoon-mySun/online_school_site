@@ -56,8 +56,7 @@ ROOT_URLCONF = 'online_school_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,6 +139,8 @@ CLOUDINARY_STORAGE = {
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+YOUTUBE_API_TOKEN = 'AIzaSyCC6emNaOjLW140tsVWTSkXVpevvhDuJlU'
 
 import dj_database_url
 

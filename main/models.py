@@ -73,6 +73,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class CourseVideo(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, blank=False, null=False, verbose_name='Предмет')
     url = models.URLField(verbose_name='Ссылка на видео')
+    title = models.CharField(max_length=200, blank=True, null=True, verbose_name='Название')
 
     class Meta:
         verbose_name_plural = 'Видео'

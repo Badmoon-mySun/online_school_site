@@ -155,8 +155,10 @@ def homework_view(request, subject_id):
 def course_view(request, course_id):
     subject = get_object_or_404(Subject, id=course_id)
     search = request.GET.get('name', '')
-    print(search)
-    videos = CourseVideo.objects.filter(title__icontains=search, subject_id=subject.id)
+    if search:
+        videos = CourseVideo.objects.filter(title__icontains=search, subject_id=subject.id)
+    else:
+        videos = CourseVideo.objects.filter(subject_id=subject.id)
 
     return render(request, 'main/courses.html', {'page_subject': subject, 'videos': videos})
 

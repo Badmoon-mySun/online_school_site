@@ -33,19 +33,19 @@ class TestForm(forms.Form):
 
 
 class UserRegistrationForm(forms.Form):
-    username = forms.CharField(label='Ваше имя', widget=forms.TextInput(attrs={'class': 'form-control'}),
-                               min_length=1, max_length=15)
-    email = forms.CharField(label='Ваш Email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    name = forms.CharField(label='Ваше имя', widget=forms.TextInput(attrs={'class': 'form-control'}),
+                           min_length=1, max_length=15)
+    username = forms.CharField(label='Ваш Email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     subjects = forms.ModelMultipleChoiceField(queryset=Subject.objects.all(),
                                               widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
                                               required=True)
 
     def get_required_fields(self):
-        return [self.username, self.email, self.password]
+        return [self.name, self.username, self.password]
 
     def clean_email(self):
-        email = self.cleaned_data['email'].lower()
+        email = self.cleaned_data['username'].lower()
 
         if User.objects.filter(email=email).count():
             raise ValidationError('Пользователь с таким email уже существует')
@@ -58,8 +58,8 @@ class UserRegistrationForm(forms.Form):
 
     def save(self):
         user = User.objects.create_user(
-            email=self.cleaned_data['email'],
-            username=self.cleaned_data['username'],
+            email=self.cleaned_data['username'],
+            username=self.cleaned_data['name'],
             password=self.cleaned_data['password'],
         )
 
@@ -71,7 +71,7 @@ class UserRegistrationForm(forms.Form):
 
 
 class UserLoginForm(forms.Form):
-    email = forms.CharField(label='Ваш Email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(label='Ваш Email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 

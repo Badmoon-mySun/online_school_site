@@ -11,7 +11,8 @@
         <div class="row test_elem py-4">
             <div class="col">
                 <div class="question_num">
-                    <h5><strong>{{ field.label }}</strong></h5>
+                    <h5><strong class="{% if field.value == field.field.answer  %}text-success{% else %}text-danger{% endif %}">
+                            {{ field.label }}</strong></h5>
                 </div>
                 <div class="question_text">
                     <p>{{ field.field.text | linebreaks }}</p>
@@ -28,7 +29,8 @@
                 {% endif %}
                 <div class="row">
                     <div class="col-auto">
-                        <p class="p-0 m-0">Ваш ответ: {{ field.value }}</p>
+                        <p class="p-0 m-0 {% if field.value == field.field.answer  %}text-success{% else %}text-danger{% endif %}">
+                            Ваш ответ: {{ field.value }}</p>
                         <p class="p-0 m-0">Правильный ответ: {{ field.field.answer }}</p>
                         <p class="p-0 m-0">
                             Полученный балл:

@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
@@ -96,13 +96,13 @@ def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
-            user = authenticate(request, email=form.cleaned_data['email'],
+            user = authenticate(request, email=form.cleaned_data['username'],
                                 password=form.cleaned_data['password'])
             if user:
                 login(request, user)
                 return redirect('profile')
             else:
-                form.errors['email'] = 'Неверное имя пользователя или пароль'
+                form.errors['username'] = 'Неверное имя пользователя или пароль'
     else:
         form = UserLoginForm()
 
@@ -114,7 +114,8 @@ def registration_view(request):
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_user = form.save()
+            login(request, new_user)
             return redirect('profile')
 
     else:

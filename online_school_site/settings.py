@@ -130,17 +130,20 @@ HOME_URL = '/'
 
 AUTH_USER_MODEL = 'main.User'
 
+# ------ Invalid tokens
+# These tokens have been removed, please insert your keys
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dnhstukyc',
     'API_KEY': '689559436952822',
     'API_SECRET': 'rPSUPbO81YjGE1a20_qkSvaboWM'
 }
 
+YOUTUBE_API_TOKEN = 'AIzaSyCC6emNaOjLW140tsVWTSkXVpevvhDuJlU'
+# ------
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-YOUTUBE_API_TOKEN = 'AIzaSyCC6emNaOjLW140tsVWTSkXVpevvhDuJlU'
 
 import dj_database_url
 
